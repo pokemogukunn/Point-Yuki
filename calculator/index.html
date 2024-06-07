@@ -1,41 +1,325 @@
 <!DOCTYPE html>
 <html lang="ja">
- <head>
-<font size="7"> <font color=”#00fa9a”>小</font> </font><font size="7"> <font color=”#696969”>＆</font> </font><font size="7"> <font color=”#0000ff”>中学校</font> </font><font size="7"> <font color=”#008000”> で覚えた大まかな</font> </font><font size="7"> <font color=”#800080”>歴史 </font> </font>
-<br>
-<font size="7"> <font color=”#ff0000”> 593 </font> </font><font size="7"> <font color=”#ffff00”> ご苦労さん聖徳太子が摂政に </font> </font><br>
-<font size="7"> <font color=”#ff0000”> 607 </font> </font><font size="7"> <font color=”#ffff00”> 群れなして遣隋使 </font> </font><br>
-<font size="7"> <font color=”#ff0000”> 710 </font> </font><font size="7"> <font color=”#ffff00”> 何と立派な平城京 </font> </font><br>
-<font size="7"> <font color=”#ff0000”> 794 </font> </font><font size="7"> <font color=”#ffff00”> 鳴くよウグイス平安京 </font> </font><br>
-<font size="7"> <font color=”#ff0000”> 894 </font> </font><font size="7"> <font color=”#ffff00”> 白紙に戻す遣隋使 </font> </font><br>
-<font size="7"> <font color=”#ff0000”> 1221 </font> </font><font size="7"> <font color=”#ffff00”> 人に不意打ち承久の乱 </font> </font><br>
-<font size="7"> <font color=”#ff0000”> 1467 </font> </font><font size="7"> <font color=”#ffff00”> 人世むなしく応仁の乱 </font> </font><br>
-<font size="7"> <font color=”#ff0000”> 1582 </font> </font><font size="7"> <font color=”#ffff00”>  いちごパンツの本能寺 </font> </font><br>
-<font size="7"> <font color=”#ff0000”> 1600 </font> </font><font size="7"> <font color=”#ffff00”>  人群れる関ヶ原 </font> </font><br>
-<font size="7"> <font color=”#ff0000”> 1853 </font> </font><font size="7"> <font color=”#ffff00”> いっぱい込み合うペリー来航 </font> </font><br>
-<font size="7"> <font color=”#ff0000”> 1877 </font> </font><font size="7"> <font color=”#ffff00”> いいバナナ食べるよ西郷どん（西南戦争） </font> </font><br>
-<font size="7"> <font color=”#ff0000”> 1914 </font> </font><font size="7"> <font color=”#ffff00”>  一苦一死の第一次大戦 </font> </font><br>
-<font size="7"> <font color=”#ff0000”> 1951 </font> </font><font size="7"> <font color=”#ffff00”>   ひどく強引な講和条約（サンフランシスコ講和条約） </font> </font>
-<br> </head>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-
-<hea>
-    <meta charset='utf-8'>
-    <title>歴史の語呂合わせ！</title>
-    <script>function getlevel(){
-        if(document.getElementById('excel').value == "4649"){document.cookie = "yuki=True; path=/;";}else{
-        let req = new XMLHttpRequest();
-        req.addEventListener("load", function(){document.getElementById('info').textContent = this.responseText});
-        req.open("GET", "/answer?q="+document.getElementById('excel').value);
-        req.send();}
-    }</script>
-</hea>
-
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>クッキークリッカー</title>
 <style>
     body {
-        background:#38a1db;
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+    .clicker-icon {
+        font-size: 64px;
+        display: inline-block;
+        cursor: pointer;
+    }
+    .clicker-icon:hover {
+        opacity: 0.8;
+    }
+    #cheatMessage {
+        color: red;
+        font-size: 24px;
+        display: none;
+    }
+    .gacha-button {
+        margin: 10px;
+    }
+    #saveCodeDisplay {
+        font-size: 18px;
+        margin-top: 20px;
+    }
+    .enchant-button {
+        margin: 5px;
     }
 </style>
+</head>
+<body>
+<h1 id="title">クッキークリッカー</h1>
+<div>
+    <p id="cookieCounter">クッキー: 0</p>
+    <p id="cps">クッキー/秒: 0</p>
+    <p id="xpCounter">経験値: 0</p>
+</div>
+<br>
+<input type="text" id="shopNameInput" placeholder="クッキー屋さんの名前を入力" oninput="updateShopName()" />
+<p id="shopName"></p>
+<p id="cheatMessage">チート発動</p>
+<div id="clicker"><span class="clicker-icon" onclick="clickCookie()">🍪</span></div>
+<button id="buyCursorButton" onclick="buyCursor()">カーソルを購入 (15クッキー)</button>
+<div id="granny"><span class="clicker-icon" onclick="buyGranny()">👵</span></div>
+<button id="buyGrannyButton" onclick="buyGranny()">おばあちゃんを雇う (100クッキー)</button>
+<div id="farm"><span class="clicker-icon" onclick="buyFarm()">🌾</span></div>
+<button id="buyFarmButton" onclick="buyFarm()">農場を購入 (1,100クッキー)</button>
+<div id="mine"><span class="clicker-icon" onclick="buyMine()">⛏️</span></div>
+<button id="buyMineButton" onclick="buyMine()">鉱山を購入 (12,000クッキー)</button>
+<div id="factory"><span class="clicker-icon" onclick="buyFactory()">🏭</span></div>
+<button id="buyFactoryButton" onclick="buyFactory()">工場を購入 (130,000クッキー)</button>
+<br>
+<button id="gachaNormalButton" class="gacha-button" onclick="rollGacha('normal')">ノーマルガチャ (10クッキー)</button>
+<button id="gachaRareButton" class="gacha-button" onclick="rollGacha('rare')">レアガチャ (100クッキー)</button>
+<button id="gachaEpicButton" class="gacha-button" onclick="rollGacha('epic')">エピックガチャ (1,000クッキー)</button>
+<br>
+<button id="saveButton" onclick="saveGame()">セーブ</button>
+<button id="loadButton" onclick="showLoadPrompt()">セーブデータ読み込み</button>
+<div id="loadPrompt" style="display:none;">
+    <input type="text" id="saveCodeInput" placeholder="セーブコードを入力" />
+    <button id="loadGameButton" onclick="loadGame()">読み込み</button>
+    <button id="closeButton" onclick="hideLoadPrompt()">閉じる</button>
+</div>
+<div id="saveCodeDisplay"></div>
+<br>
+<div>
+    <h2>エンチャント</h2>
+    <button class="enchant-button" onclick="enchant('good')">良いエンチャント (100XP)</button>
+    <button class="enchant-button" onclick="enchant('bad')">悪いエンチャント (50XP)</button>
+</div>
+<div>
+    <h2>実績</h2>
+    <ul id="achievements"></ul>
+</div>
+
+<script>
+    var cookieCount = 0;
+    var cursors = 0;
+    var grannies = 0;
+    var farms = 0;
+    var mines = 0;
+    var factories = 0;
+    var cps = 0;
+    var xp = 0;
+
+    var cookieCounter = document.getElementById('cookieCounter');
+    var cpsCounter = document.getElementById('cps');
+    var xpCounter = document.getElementById('xpCounter');
+    var shopNameElement = document.getElementById('shopName');
+    var cheatMessage = document.getElementById('cheatMessage');
+    var shopNameInput = document.getElementById('shopNameInput');
+    var loadPrompt = document.getElementById('loadPrompt');
+    var saveCodeInput = document.getElementById('saveCodeInput');
+    var saveCodeDisplay = document.getElementById('saveCodeDisplay');
+    var achievementsList = document.getElementById('achievements');
+
+    var achievements = [
+        { id: 'click100', name: 'クッキーを100個クリックする', xp: 10, condition: () => cookieCount >= 100 },
+        { id: 'buy10Cursors', name: 'カーソルを10個購入する', xp: 20, condition: () => cursors >= 10 },
+        { id: 'buy5Grannies', name: 'おばあちゃんを5人雇う', xp: 30, condition: () => grannies >= 5 },
+        { id: 'buy1Farm', name: '農場を1つ購入する', xp: 40, condition: () => farms >= 1 },
+        { id: 'click1000', name: 'クッキーを1,000個クリックする', xp: 100, condition: () => cookieCount >= 1000 },
+        { id: 'buy50Cursors', name: 'カーソルを50個購入する', xp: 200, condition: () => cursors >= 50 },
+        { id: 'buy25Grannies', name: 'おばあちゃんを25人雇う', xp: 300, condition: () => grannies >= 25 },
+        { id: 'buy10Farms', name: '農場を10個購入する', xp: 400, condition: () => farms >= 10 },
+        { id: 'buy1Mine', name: '鉱山を1つ購入する', xp: 500, condition: () => mines >= 1 },
+        { id: 'buy1Factory', name: '工場を1つ購入する', xp: 1000, condition: () => factories >= 1 }
+    ];
+
+    function clickCookie() {
+        cookieCount++;
+        cookieCounter.textContent = "クッキー: " + cookieCount;
+        checkAchievements();
+    }
+
+    function buyCursor() {
+        var cost = 15;
+        if (cookieCount >= cost) {
+            cookieCount -= cost;
+            cursors++;
+            updateCps();
+            cookieCounter.textContent = "クッキー: " + cookieCount;
+            checkAchievements();
+        }
+    }
+
+    function buyGranny() {
+        var cost = 100;
+        if (cookieCount >= cost) {
+            cookieCount -= cost;
+            grannies++;
+            updateCps();
+            cookieCounter.textContent = "クッキー: " + cookieCount;
+            checkAchievements();
+        }
+    }
+
+    function buyFarm() {
+        var cost = 1100;
+        if (cookieCount >= cost) {
+            cookieCount -= cost;
+            farms++;
+            updateCps();
+            cookieCounter.textContent = "クッキー: " + cookieCount;
+            checkAchievements();
+        }
+    }
+
+    function buyMine() {
+        var cost = 12000;
+        if (cookieCount >= cost) {
+            cookieCount -= cost;
+            mines++;
+            updateCps();
+            cookieCounter.textContent = "クッキー: " + cookieCount;
+            checkAchievements();
+        }
+    }
+
+    function buyFactory() {
+        var baseCost = 130000;
+        var cost = baseCost * Math.pow(1.15, factories);
+        if (cookieCount >= cost) {
+            cookieCount -= cost;
+            factories++;
+            updateCps();
+            cookieCounter.textContent = "クッキー: " + cookieCount;
+            checkAchievements();
+        }
+    }
+
+    function updateCps() {
+        cps = cursors + (grannies * 5) + (farms * 10) + (mines * 50) + (factories * 100);
+        cpsCounter.textContent = "クッキー/秒: " + cps;
+    }
+
+    function saveGame() {
+        var saveData = {
+            cookieCount: cookieCount,
+            cursors: cursors,
+            grannies: grannies,
+            farms: farms,
+            mines: mines,
+            factories: factories,
+            xp: xp
+        };
+        var saveCode = btoa(JSON.stringify(saveData));
+        saveCodeDisplay.textContent = "セーブコード: " + saveCode;
+    }
+
+    function loadGame() {
+        var saveCode = saveCodeInput.value;
+        try {
+            var saveData = JSON.parse(atob(saveCode));
+            cookieCount = saveData.cookieCount;
+            cursors = saveData.cursors;
+            grannies = saveData.grannies;
+            farms = saveData.farms;
+            mines = saveData.mines;
+            factories = saveData.factories;
+            xp = saveData.xp;
+
+            cookieCounter.textContent = "クッキー: " + cookieCount;
+            xpCounter.textContent = "経験値: " + xp;
+            updateCps();
+        } catch (e) {
+            alert("セーブデータの読み込みに失敗しました。");
+        }
+    }
+
+    function showLoadPrompt() {
+        loadPrompt.style.display = "block";
+    }
+
+    function hideLoadPrompt() {
+        loadPrompt.style.display = "none";
+    }
+
+    function updateShopName() {
+        var shopName = shopNameInput.value;
+        shopNameElement.textContent = "クッキー屋さんの名前: " + shopName;
+    }
+
+    function enchant(type) {
+        if (type === 'good' && xp >= 100) {
+            xp -= 100;
+            cursors += 10;
+        } else if (type === 'bad' && xp >= 50) {
+            xp -= 50;
+            cursors -= 5;
+        }
+        xpCounter.textContent = "経験値: " + xp;
+        updateCps();
+    }
+
+    function rollGacha(type) {
+        var cost = 0;
+        var reward = "";
+
+        if (type === 'normal') {
+            cost = 10;
+            if (cookieCount >= cost) {
+                cookieCount -= cost;
+                var roll = Math.random();
+                if (roll < 0.7) {
+                    reward = "コモンアイテム獲得!";
+                    cursors++;
+                } else if (roll < 0.98) {
+                    reward = "アンコモンアイテム獲得!";
+                    farms++;
+                } else {
+                    reward = "レアアイテム獲得!";
+                    mines++;
+                }
+            }
+        } else if (type === 'rare') {
+            cost = 100;
+            if (cookieCount >= cost) {
+                cookieCount -= cost;
+                var roll = Math.random();
+                if (roll < 0.5) {
+                    reward = "コモンアイテム獲得!";
+                    grannies++;
+                } else if (roll < 0.9) {
+                    reward = "アンコモンアイテム獲得!";
+                    farms++;
+                } else {
+                    reward = "レアアイテム獲得!";
+                    factories++;
+                }
+            }
+        } else if (type === 'epic') {
+            cost = 1000;
+            if (cookieCount >= cost) {
+                cookieCount -= cost;
+                var roll = Math.random();
+                if (roll < 0.3) {
+                    reward = "コモンアイテム獲得!";
+                    grannies++;
+                } else if (roll < 0.7) {
+                    reward = "アンコモンアイテム獲得!";
+                    farms++;
+                } else {
+                    reward = "レアアイテム獲得!";
+                    factories++;
+                }
+            }
+        }
+
+        cookieCounter.textContent = "クッキー: " + cookieCount;
+        checkAchievements();
+        alert(reward);
+    }
+
+    function checkAchievements() {
+        achievements.forEach(achievement => {
+            if (achievement.condition() && !document.getElementById(achievement.id)) {
+                var li = document.createElement('li');
+                li.id = achievement.id;
+                li.textContent = achievement.name;
+                achievementsList.appendChild(li);
+                xp += achievement.xp;
+                xpCounter.textContent = "経験値: " + xp;
+            }
+        });
+    }
+
+    setInterval(function() {
+        cookieCount += cps;
+        cookieCounter.textContent = "クッキー: " + cookieCount;
+        checkAchievements();
+    }, 1000);
+
+</script>
+</body>
+</html>
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     よろしく<br>
     「よろしく」を数字で表すと?<br>
